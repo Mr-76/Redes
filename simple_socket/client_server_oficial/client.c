@@ -3,8 +3,47 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
-void retornaPrint(char *nomeServidor, char *valorServidor, char *string_cliente,
-                  char *string_servidor, char *nomeserver) {}
+void mensagemFinal(char *mensagem_servidor, char *mensagem_cliente) {
+
+  // servidor
+  char nomeServidor[40];
+  char valorServidor[40];
+
+  // nomeServidor clioente nomeServidor servidor valorServidor cliente
+  // valorServidor servidor e a soma
+
+  char delimitador[] = " ";
+  char *nomeServer = strtok(mensagem_servidor, delimitador);
+
+  strncpy(nomeServidor, nomeServer, sizeof(nomeServidor));
+
+  char *valorServer = strtok(NULL, delimitador);
+
+  strncpy(valorServidor, valorServer, sizeof(nomeServidor));
+  int valor_server = atoi(valorServidor);
+
+  char nomeCliente[40];
+  char valorCliente[40];
+
+  // cliente
+  char *nomeClientetok = strtok(mensagem_cliente, delimitador);
+
+  strncpy(nomeCliente, nomeClientetok, sizeof(nomeCliente));
+
+
+  char *valorClientetok = strtok(NULL, delimitador);
+
+  strncpy(valorCliente, valorClientetok, sizeof(valorCliente));
+
+  int valor_cliente = atoi(valorCliente);
+
+  int soma = valor_server + valor_cliente;
+
+  printf("nome cliente: %s | nome server: %s | valor cliente: %d | valor "
+         "servidor %d| soma %d\n",
+         nomeCliente, nomeServidor, valor_cliente, valor_server, soma);
+}
+
 int main(void) {
   int meu_socket;
   struct sockaddr_in endereco_server;
@@ -46,45 +85,7 @@ int main(void) {
 
   printf("Server's response: %s\n", mensagem_servidor);
 
-  // servidor
-  char nomeServidor[40];
-  char valorServidor[40];
-
-  // nomeServidor clioente nomeServidor servidor valorServidor cliente
-  // valorServidor servidor e a soma
-
-  char delimitador[] = " ";
-  char *nomeServer = strtok(mensagem_servidor, delimitador);
-
-  strncpy(nomeServidor, nomeServer, sizeof(nomeServidor));
-  printf("%s\n", nomeServidor);
-
-  char *valorServer = strtok(NULL, delimitador);
-
-  strncpy(valorServidor, valorServer, sizeof(nomeServidor));
-  int valor_server = atoi(valorServidor);
-
-  char nomeCliente[40];
-  char valorCliente[40];
-
-  // cliente
-  char *nomeClientetok = strtok(mensagem_cliente, delimitador);
-
-  strncpy(nomeCliente, nomeClientetok, sizeof(nomeCliente));
-
-  printf("%s\n", nomeCliente);
-
-  char *valorClientetok = strtok(NULL, delimitador);
-
-  strncpy(valorCliente, valorClientetok, sizeof(valorCliente));
-
-  int valor_cliente = atoi(valorCliente);
-
-  int soma = valor_server + valor_cliente;
-
-  printf("nome cliente: %s nome server: %s valor cliente:%d valor servidor %d "
-         "soma %d\n",
-         nomeCliente, nomeServidor, valor_cliente, valor_server, soma);
+  mensagemFinal(mensagem_servidor, mensagem_cliente);
 
   close(meu_socket);
 

@@ -9,7 +9,6 @@ void retornaPrint(char *nome, char *valor, char *string_cliente,char* string_ser
   char *ptrStringNomeCliente = strtok(string_cliente, delimitador);
 
   strncpy(nome, ptrStringNomeCliente, sizeof(&nome));
-  printf("%s\n", nome);
   // pegando valores por separacao :)
   char *ptrStringNumeroCliente = strtok(NULL, delimitador);
   strncpy(valor, ptrStringNumeroCliente, sizeof(&nome));
@@ -18,7 +17,7 @@ void retornaPrint(char *nome, char *valor, char *string_cliente,char* string_ser
   // printf("%s\n", ptrStringNumeroCliente);
   int random = (rand() % 100);
   int soma = random + valor_cliente;
-  printf("valor do cliente %d\n valor do servidor %d\n valor da soma %d\n",
+  printf("valor do cliente %d valor do servidor %d valor da soma %d\n",
          valor_cliente, random, soma);
 
   char string_valor_server[4];
@@ -99,5 +98,3 @@ int main(void) {
 
   return 0;
 }
-
-// def numero, retorna soma numero num array so para ser retornado.
