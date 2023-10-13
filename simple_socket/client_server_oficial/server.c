@@ -1,11 +1,13 @@
 #include <arpa/inet.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 int main(void) {
 
   int meu_socket, socket_cliente, tamanho_cliente;
   struct sockaddr_in endereco_server, endereco_cliente;
+  char nomeserver[30] = "--SERVER--VITOR--";
 
   char string_servidor[500], string_cliente[500];
 
@@ -36,8 +38,6 @@ int main(void) {
     return -1;
   }
 
-  printf("\ncliente em conexao\n");
-
   tamanho_cliente = sizeof(endereco_cliente);
 
   socket_cliente = accept(meu_socket, (struct sockaddr *)&endereco_cliente,
@@ -56,7 +56,7 @@ int main(void) {
     printf("nao foi recebido\n");
     return -1;
   }
-  printf("mensagem do cliente %s\n", string_cliente);
+  printf("mensagem do cliente: %s |server side: %s\n", string_cliente, nomeserver);
 
   char delimitador[] = " ";
 
@@ -67,7 +67,7 @@ int main(void) {
 
   strncpy(nome, ptrStringNomeCliente, sizeof(nome));
   printf("%s\n", nome);
-
+  // pegando valores por separacao :)
   char *ptrStringNumeroCliente = strtok(NULL, delimitador);
   strncpy(valor, ptrStringNumeroCliente, sizeof(nome));
   int valor_cliente = atoi(valor);
@@ -78,12 +78,13 @@ int main(void) {
   printf("valor do cliente %d\n valor do servidor %d\n valor da soma %d\n",
          valor_cliente, random, soma);
 
-  printf("\ndepois de formatar\n");
 
-  char str_retorno[10];
-  sprintf(str_retorno, "%d", random);
+  char string_valor_server[4];
+  sprintf(string_valor_server, "%d", random);
+  strcpy(string_servidor, nomeserver);
+  strcat(string_servidor, " ");
+  strcat(string_servidor, string_valor_server);
 
-  strcpy(string_servidor, str_retorno);
 
   if (send(socket_cliente, string_servidor, strlen(string_servidor), 0) < 0) {
     printf("nao pode mandar\n");
@@ -95,3 +96,5 @@ int main(void) {
 
   return 0;
 }
+
+// def numero, retorna soma numero num array so para ser retornado.
