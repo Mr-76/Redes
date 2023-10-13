@@ -3,6 +3,32 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+void retornaPrint(char *nome, char *valor, char *string_cliente,char* string_servidor,char* nomeserver) {
+
+  char delimitador[] = " ";
+  char *ptrStringNomeCliente = strtok(string_cliente, delimitador);
+
+  strncpy(nome, ptrStringNomeCliente, sizeof(&nome));
+  printf("%s\n", nome);
+  // pegando valores por separacao :)
+  char *ptrStringNumeroCliente = strtok(NULL, delimitador);
+  strncpy(valor, ptrStringNumeroCliente, sizeof(&nome));
+  int valor_cliente = atoi(valor);
+
+  // printf("%s\n", ptrStringNumeroCliente);
+  int random = (rand() % 100);
+  int soma = random + valor_cliente;
+  printf("valor do cliente %d\n valor do servidor %d\n valor da soma %d\n",
+         valor_cliente, random, soma);
+
+  char string_valor_server[4];
+  sprintf(string_valor_server, "%d", random);
+  strcpy(string_servidor, nomeserver);
+  strcat(string_servidor, " ");
+  strcat(string_servidor, string_valor_server);
+
+
+}
 int main(void) {
 
   int meu_socket, socket_cliente, tamanho_cliente;
@@ -56,35 +82,12 @@ int main(void) {
     printf("nao foi recebido\n");
     return -1;
   }
-  printf("mensagem do cliente: %s |server side: %s\n", string_cliente, nomeserver);
-
-  char delimitador[] = " ";
+  printf("mensagem do cliente: %s |server side: %s\n", string_cliente,
+         nomeserver);
 
   char nome[40];
   char valor[40];
-
-  char *ptrStringNomeCliente = strtok(string_cliente, delimitador);
-
-  strncpy(nome, ptrStringNomeCliente, sizeof(nome));
-  printf("%s\n", nome);
-  // pegando valores por separacao :)
-  char *ptrStringNumeroCliente = strtok(NULL, delimitador);
-  strncpy(valor, ptrStringNumeroCliente, sizeof(nome));
-  int valor_cliente = atoi(valor);
-
-  // printf("%s\n", ptrStringNumeroCliente);
-  int random = (rand() % 100);
-  int soma = random + valor_cliente;
-  printf("valor do cliente %d\n valor do servidor %d\n valor da soma %d\n",
-         valor_cliente, random, soma);
-
-
-  char string_valor_server[4];
-  sprintf(string_valor_server, "%d", random);
-  strcpy(string_servidor, nomeserver);
-  strcat(string_servidor, " ");
-  strcat(string_servidor, string_valor_server);
-
+  retornaPrint(nome, valor, string_cliente,string_servidor,nomeserver);
 
   if (send(socket_cliente, string_servidor, strlen(string_servidor), 0) < 0) {
     printf("nao pode mandar\n");
